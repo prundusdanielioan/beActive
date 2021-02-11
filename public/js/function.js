@@ -486,7 +486,7 @@
 	                html_one += 'right:-' + Math.floor((_eventHeight/1.5) + 2) + 'px; border-width: ' + (_eventHeight + 2) + 'px 0px ' + (_eventHeight + 2) + 'px ' + Math.floor((_eventHeight / 1.5) + 2) + 'px;';
 	                html_one += '"></span>';
  
-	                html_one += '<label>' + _event.details['title'] + '<br>starts: ' + _event.start['month'] + '/' + _event.start['day'] + ', ends: ' + _event.end['month'] + '/' + _event.end['day'] + '...</label>';
+	                html_one += '<label>' + _event.details['title']  + '...</label>';
 	                html_one += '</span>';
  
 	            if($_event_start_day.attr('data-events') <= 1) {
@@ -517,7 +517,7 @@
 	                html_two += 'left:-' + Math.floor((_eventHeight/1.5) + 2) + 'px; border-width: ' + (_eventHeight + 2) + 'px ' + Math.floor((_eventHeight / 1.5) + 2) + 'px ' + (_eventHeight + 2) + 'px 0px;';
 	                html_two += '"></span>';
  
-	                html_two += '<label>...' + _event.details['title'] + '<br>starts: ' + _event.start['month'] + '/' + _event.start['day'] + ', ends: ' + _event.end['month'] + '/' + _event.end['day'] + '</label>';
+	                html_two += '<label>...' + _event.details['title'] +  '</label>';
 	                html_two += '</span>';
  
 	  				if($_event_start_day.attr('data-events') <= 1) {
@@ -567,7 +567,7 @@
  
 	                }
  
-	                html += '<label>' + _event.details['title'] + '<br>starts: ' + _event.start['month'] + '/' + _event.start['day'] + ', ends: ' + _event.end['month'] + '/' + _event.end['day'] + '</label>';
+	                html += '<label>' + _event.details['title'] + '</label>';
 	                html += '</span>';
  
 	               	if($_event_start_day.attr('data-events') <= 1) {
@@ -612,7 +612,7 @@
                         html += 'left:-' + Math.floor((_eventHeight/1.5) + 2) + 'px; border-width: ' + (_eventHeight + 2) + 'px ' + Math.floor((_eventHeight / 1.5) + 2) + 'px ' + (_eventHeight + 2) + 'px 0px;';
                         html += '"></span>';
  
-                        html += '<label>' + _event.details['title'] + '<br>starts: ' + _event.start['month'] + '/' + _event.start['day'] + ', ends: ' + _event.end['month'] + '/' + _event.end['day'] + '</label>';
+                        html += '<label>' + _event.details['title']  + '</label>';
                         html += '</span>';
  
                         $($_event_finish_cells[0]).append(html);
@@ -1030,39 +1030,52 @@ $month = $('#month').html(calendar._getMonthName()),
 $year = $('#year').html(calendar._getYear()),
 $last = $('#last').html(calendar._getLastMonth()),
 $next = $('#next').html(calendar._getNextMonth());
- 
-var events = [
- 
-	event = {
- 
-		details: {
- 
-		title: 'Reading',
- 
-		},
- 
-		start: {
- 		time: '12:00pm',
-	    month: 2,
-	    day: 17,
-	    year: 2021,
- 
-		},
- 
-		end: {
- 
-			time: '12:00pm',
-			month: 2,
-			day: 17,
-			year: 2021,
-	 
-		}
- 
-	},
- 
-];
- 
-calendar._updateEvents(events);
+
+var eventsList = []
+ fetch('http://localhost/events').then((response) => {
+	response.json().then((data) => {
+		if (data.error) {
+			
+		} else {
+			  eventsList = data;
+			  console.log(eventsList);
+			  var events = [
+			   
+				  event = {
+			   
+					  details: {
+			   
+					  title: 'Reading',
+			   
+					  },
+			   
+					  start: {
+					   time: '12:00pm',
+					  month: 2,
+					  day: 17,
+					  year: 2021,
+			   
+					  },
+			   
+					  end: {
+			   
+						  time: '12:00pm',
+						  month: 2,
+						  day: 17,
+						  year: 2021,
+				   
+					  }
+			   
+				  },
+			   
+			  ];
+			  
+			  console.log(events);
+			   
+			  calendar._updateEvents(eventsList);				}
+	})
+})
+
  
 $last.on('click', function() {
  
