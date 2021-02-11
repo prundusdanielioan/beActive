@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!--Code BY Webdevtrick ( https://webdevtrick.com )-->
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>jQuery Calendar | Webdevtrick.com</title>
+  <link rel="stylesheet" href="css/style.css">
+ 
+</head>
+<body>
+<header>
+  <div class="title-content">
+    <button id="last"></button><span>
+      <h1 id="month"></h1>
+      <h2 id="year"></h2></span>
+    <button id="next"></button>
+  </div>
+</header>
+<div class="ci-cal-container" id="calendar"></div>
+ 
+<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+<script  src="js/function.js"></script>
+ <script>
+   $(document).ready(function() {
+     console.log( 'loaded');
+     $(".cellClasses").click(function(){
+    alert('clicked');
+});
+    $( ".cellClasses" ).on( "click", function() {
+			console.log( $( this ).text() );
+		  });
+});
+   
+ </script>
+</body>
+</html>
