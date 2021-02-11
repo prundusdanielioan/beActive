@@ -1,0 +1,38 @@
+[
+    {
+      "details": {
+        "title": "Reading Node",
+        "id": "123"
+      },
+      "start": {
+        "time": "12:00pm",
+        "month": "2",
+        "day": "17",
+        "year": "2021"
+      },
+      "end": {
+        "time": "12:00pm",
+        "month": "2",
+        "day": "17",
+        "year": "2021"
+      }
+    },
+    {
+      "details": {
+        "title": "Reading A book",
+        "id": "1234"
+      },
+      "start": {
+        "time": "12:00pm",
+        "month": "2",
+        "day": "11",
+        "year": "2021"
+      },
+      "end": {
+        "time": "12:00pm",
+        "month": "2",
+        "day": "11",
+        "year": "2021"
+      }
+    }
+  ]
