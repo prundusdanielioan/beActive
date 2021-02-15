@@ -102,7 +102,7 @@
 			console.log( $( this ).text() );
 		  });
 		// handle calendar cell click events
-		this.$el.on('click.calendar', 'div.ci-row > div', function() {	
+		this.$el.on('dblclick.calendar', 'div.ci-row > div', function() {	
 			console.log('da');
  
 		var $cell = $(this),
@@ -547,7 +547,7 @@
 	});
  
                     	var html  = '<span class="ci-event public';
-	                html += '" style="left:' + (_eventOffset + 6) + 'px;';
+	                html += '" style="z-index:200;left:' + (_eventOffset + 6) + 'px;';
  
 	                if(_event.start['month'] != _event.end['month']) {
  
@@ -567,7 +567,7 @@
  
 	                }
  
-	                html += '<label>' + _event.details['title'] + '</label>';
+	                html += '<label>' + _event.details['title'] + '<a href="#">Remove</a></label>';
 	                html += '</span>';
  
 	               	if($_event_start_day.attr('data-events') <= 1) {
@@ -612,7 +612,7 @@
                         html += 'left:-' + Math.floor((_eventHeight/1.5) + 2) + 'px; border-width: ' + (_eventHeight + 2) + 'px ' + Math.floor((_eventHeight / 1.5) + 2) + 'px ' + (_eventHeight + 2) + 'px 0px;';
                         html += '"></span>';
  
-                        html += '<label>' + _event.details['title']  + '</label>';
+                        html += '<label>11' + _event.details['title']  + '</label>';
                         html += '</span>';
  
                         $($_event_finish_cells[0]).append(html);
@@ -1021,7 +1021,8 @@ var calendar = $('#calendar').ciCalendar({
 		console.log(key + ' = ' + dateProperties[key]);
  
 		}
- 
+		$("#popup-link").click()
+		$("#eventDate").val(JSON.stringify(dateProperties))
 	}
  
 }),
@@ -1039,40 +1040,9 @@ var eventsList = []
 		} else {
 			  eventsList = data;
 			  console.log(eventsList);
-			  var events = [
-			   
-				  event = {
-			   
-					  details: {
-			   
-					  title: 'Reading',
-			   
-					  },
-			   
-					  start: {
-					   time: '12:00pm',
-					  month: 2,
-					  day: 17,
-					  year: 2021,
-			   
-					  },
-			   
-					  end: {
-			   
-						  time: '12:00pm',
-						  month: 2,
-						  day: 17,
-						  year: 2021,
-				   
-					  }
-			   
-				  },
-			   
-			  ];
-			  
-			  console.log(events);
-			   
-			  calendar._updateEvents(eventsList);				}
+
+			  calendar._updateEvents(eventsList);				
+			}
 	})
 })
 
@@ -1106,3 +1076,4 @@ function updateMonthYear() {
 	calendar._updateEvents(events);
  
 }
+

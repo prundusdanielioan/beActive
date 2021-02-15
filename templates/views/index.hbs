@@ -3,25 +3,14 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>jQuery Calendar | Webdevtrick.com</title>
+  <title>Be Active</title>
   <link rel="stylesheet" href="css/style.css">
- 
+<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+ <!-- jQuery Modal -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 </head>
 <body>
-
-
-  <!-- Modal HTML embedded directly into document -->
-<div id="ex1" class="modal">
-  <p>Thanks for clicking. That felt good.</p>
-  <a href="#" rel="modal:close">Close</a>
-</div>
-
-<!-- Link to open the modal -->
-<p id="modal"><a href="#ex1" rel="modal:open">Open Modal</a></p>
-
-
-<p></p>
-<p></p>
 <header>
   <div class="title-content">
     <button id="last"></button><span>
@@ -30,31 +19,56 @@
     <button id="next"></button>
   </div>
 </header>
-
 <div class="ci-cal-container" id="calendar"></div>
- 
-<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
-<!-- jQuery Modal -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+ <!-- Modal HTML embedded directly into document -->
+<div id="ex1" class="modal" style="z-index: 0;">
+  <form id="eventForm">
+  <input type="text" id="eventName">
+  <button id="saveEvent">Save</button>
 
+  <input type="hidden" id="eventDate">
+  </form>
+  <a href="#" rel="modal:close">Close</a>
+</div>
+<a href="#ex1" id="popup-link" rel="modal:open"></a>
 <script  src="js/function.js"></script>
 
  <script>
    $(document).ready(function() {
-    $( ".ci-event-row" ).on( "click", function() {
-			console.log('clicked' );
-		  });
-    $("#modal").click();
-     console.log( 'loaded');
+    $( "#saveEvent" ).on( "click", function(e) {
+      e.preventDefault()
+      console.log('save event clicked')
+          fetch('http://localhost/events', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json;charset=utf-8'
+  },
+     body: JSON.stringify({
+        user: {
+            name: "John",
+            email: "john@example.com"
+        }
+    })
+}).then((response) => {
+        response.json().then((data) => {
+            if (data.error) {
+              console.log(data.error)
+            } else {
+              console.log(data)
+            }
+        })
+    })
 
-    $( ".cellClasses" ).on( "click", function() {
-			console.log( $( this ).text() );
-		  });
+    });
+    {{!-- $( ".cellClasses" ).on( "dblclick", function() {
+      console.log(this)
+			$("#popup-link").click()
+		  }); --}}
+
 });
    
  </script>
 
- 
+
 </body>
 </html>

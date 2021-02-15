@@ -25,6 +25,14 @@ app.get('/events', (req, res) => {
     )
 })
 
+app.post('/events', (req, res) => {
+    res.send( 
+       {"error": false , "response": "Event Added"}
+
+    )
+    console.log(req.body)
+})
+
 
 app.listen(80,()=>{
     console.log('server on')
