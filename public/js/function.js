@@ -567,7 +567,7 @@
  
 	                }
  
-	                html += '<label>' + _event.details['title'] + '<a href="#">Remove</a></label>';
+				html += '<label>' + _event.details['title'] + '</label><div style="z-index: 110"><img class="actions delete" event = "' + JSON.stringify(_event) + '" src="images/delete.png"><img class="actions complete" src="images/complete.png" alt="Mark Complete"></div>';
 	                html += '</span>';
  
 	               	if($_event_start_day.attr('data-events') <= 1) {
@@ -1040,8 +1040,41 @@ var eventsList = []
 		} else {
 			  eventsList = data;
 			  console.log(eventsList);
-
 			  calendar._updateEvents(eventsList);				
+			  $( ".delete" ).on( "click", function(e) {
+				e.preventDefault()
+				console.log('delete clicked')
+			  });
+
+			  $( ".complete" ).on( "click", function(e) {
+				e.preventDefault()
+				console.log('complete clicked')
+			  });
+			  $( "#saveEvent" ).on( "click", function(e) {
+				e.preventDefault()
+				console.log('save event clicked')
+				let _data = {
+					"title": $("#eventName").val(),
+					"data": $("#eventDate").val(), 
+				  }
+					fetch('http://localhost/events', {
+			method: 'POST',
+			headers: {
+			  'Content-Type': 'application/json;charset=utf-8'
+			},
+			   body: JSON.stringify(_data),
+		  }).then((response) => {
+				  response.json().then((data) => {
+					  if (data.error) {
+						console.log(data.error)
+					  } else {
+						console.log(data)
+					  }
+				  })
+			  })
+		  
+			  });
+		  
 			}
 	})
 })

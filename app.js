@@ -4,8 +4,13 @@ const hbs =  require('hbs')
 const fs =require('fs')
 const { v4: uuidv4 } = require('uuid');
 
+const events =require('./actions/events')
 
 const app = express()
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname,'public')))
 const viewsPath = path.join(__dirname,'templates/views')
 const partialPath = path.join(__dirname,'templates/partial')
@@ -21,14 +26,23 @@ res.render('index',{
 })
 app.get('/events', (req, res) => {
     res.send( 
-        fs.readFileSync('events.json')
+       events.listEvents()
     )
 })
 
 app.post('/events', (req, res) => {
+    events.addEvent(req.body.title, req.body.data)
     res.send( 
+        
        {"error": false , "response": "Event Added"}
 
+    )
+    // console.log(req.body.title, req.body.data)
+})
+
+app.delete('/events', (req, res) => {
+    res.send( 
+       {"error": false , "response": "Event Deleted"}
     )
     console.log(req.body)
 })
