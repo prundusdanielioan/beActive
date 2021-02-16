@@ -414,6 +414,7 @@
 		// loop through each event supplied in
 		// the _events object when the function is called
 		$.each(_events, function(index, _event) {
+			console.log(_event)
  
 		// define the dom elements we'll need
                 var $_event_start_day   = $('.ci-row > div[data-day="' + _event.start['day'] + '"]'),
@@ -567,9 +568,9 @@
  
 	                }
  
-				html += '<label>' + _event.details['title'] + '</label><div style="z-index: 110"><img class="actions delete" event = "' + JSON.stringify(_event) + '" src="images/delete.png"><img class="actions complete" src="images/complete.png" alt="Mark Complete"></div>';
+				html += '<label>' + _event.details['title'] + '</label><div style="z-index: 110"><img class="actions delete" event = "' + _event.details['id'] + '" src="images/delete.png"><img class="actions complete" src="images/complete.png" alt="Mark Complete"></div>';
 	                html += '</span>';
- 
+
 	               	if($_event_start_day.attr('data-events') <= 1) {
  
 	               		$($_event_start_cells[0]).append(html);
@@ -620,7 +621,35 @@
                 }
  
 	});
- 
+	$( ".delete" ).on( "click", function(e) {
+		e.preventDefault()
+		console.log($(this).attr('event'))
+
+		//delete
+		let _data = {
+			"id": $(this).attr('event'),
+		  }
+			fetch('http://localhost/events', {
+	method: 'DELETE',
+	headers: {
+	  'Content-Type': 'application/json;charset=utf-8'
+	},
+	   body: JSON.stringify(_data),
+  }).then((response) => {
+		  response.json().then((data) => {
+			  if (data.error) {
+				console.log(data.error)
+			  } else {
+				calendar._updateEvents(data);
+			  }
+		  })
+	  })	
+
+
+
+		console.log('delete clicked')
+	  });
+
 	},
  
 	/*
@@ -1016,13 +1045,13 @@ var calendar = $('#calendar').ciCalendar({
  
 		console.clear();
  
+		$("#popup-link").click()
 		for(var key in dateProperties) {
  
 		console.log(key + ' = ' + dateProperties[key]);
+		$("#" +key).val(dateProperties[key])
  
 		}
-		$("#popup-link").click()
-		$("#eventDate").val(JSON.stringify(dateProperties))
 	}
  
 }),
@@ -1041,10 +1070,6 @@ var eventsList = []
 			  eventsList = data;
 			  console.log(eventsList);
 			  calendar._updateEvents(eventsList);				
-			  $( ".delete" ).on( "click", function(e) {
-				e.preventDefault()
-				console.log('delete clicked')
-			  });
 
 			  $( ".complete" ).on( "click", function(e) {
 				e.preventDefault()
@@ -1055,7 +1080,9 @@ var eventsList = []
 				console.log('save event clicked')
 				let _data = {
 					"title": $("#eventName").val(),
-					"data": $("#eventDate").val(), 
+					"day": $("#day").val(), 
+					"month": $("#month").val(), 
+					"year": $("#year").val(), 
 				  }
 					fetch('http://localhost/events', {
 			method: 'POST',
@@ -1068,7 +1095,11 @@ var eventsList = []
 					  if (data.error) {
 						console.log(data.error)
 					  } else {
-						console.log(data)
+						//close popup
+						console.log('clicked');
+						$('#event-name').val('')
+						$('.close-modal').click()
+						calendar._updateEvents(data);
 					  }
 				  })
 			  })
