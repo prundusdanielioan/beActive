@@ -10,7 +10,7 @@ const addEvent = (title,day, month,year) => {
 
     if (!duplicateNote) {
         events.push({
-            details: {title: title, id: uuidv4()},
+            details: {title: title, id: uuidv4(), completed:0},
             start: { time: '12:00pm', month: month, day: day, year: year },
             end: { time: '12:00pm', month: month, day: day, year: year },
                 })

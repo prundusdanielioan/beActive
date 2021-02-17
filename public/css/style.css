@@ -246,6 +246,12 @@ header .title-content span h2 {
     border-color: #D1DBBB;
  
 }
+.ci-event.completed {
+ 
+    background:#19ec86;
+    border-color: #D1DBBB;
+ 
+}
  
 .ci-event.private {
  

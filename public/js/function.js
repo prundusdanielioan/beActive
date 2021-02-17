@@ -547,7 +547,12 @@
  
 	});
  
-                    	var html  = '<span class="ci-event public';
+                    	var html  = '<span class="ci-event ';
+						if(_event.details['completed'] == 1){
+							html += 'completed'
+						} else{
+							html += 'public'
+						}
 	                html += '" style="z-index:200;left:' + (_eventOffset + 6) + 'px;';
  
 	                if(_event.start['month'] != _event.end['month']) {
@@ -1097,7 +1102,6 @@ var eventsList = []
 					  } else {
 						//close popup
 						console.log('clicked');
-						$('#event-name').val('')
 						$('.close-modal').click()
 						calendar._updateEvents(data);
 					  }
