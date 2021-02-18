@@ -334,4 +334,5 @@ header .title-content span h2 {
 .actions{
     height: 20px;
     width: 20px;
+    cursor: pointer;
 }

@@ -36,6 +36,13 @@ app.post('/events', (req, res) => {
     )
     // console.log(req.body.title, req.body.data)
 })
+app.post('/events/completed', (req, res) => {
+    events.markCompleteEvent(req.body.id)
+    res.send( 
+        events.listEvents()
+    )
+    // console.log(req.body.title, req.body.data)
+})
 
 app.delete('/events', (req, res) => {
     events.removeEvent(req.body.id)

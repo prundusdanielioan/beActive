@@ -573,7 +573,7 @@
  
 	                }
  
-				html += '<label>' + _event.details['title'] + '</label><div style="z-index: 110"><img class="actions delete" event = "' + _event.details['id'] + '" src="images/delete.png"><img class="actions complete" src="images/complete.png" alt="Mark Complete"></div>';
+				html += '<label>' + _event.details['title'] + '</label><div style="z-index: 110"><img class="actions delete" event = "' + _event.details['id'] + '" src="images/delete.png"><img class="actions complete" event = "' + _event.details['id'] + '" src="images/complete.png" alt="Mark Complete"></div>';
 	                html += '</span>';
 
 	               	if($_event_start_day.attr('data-events') <= 1) {
@@ -1068,17 +1068,41 @@ $next = $('#next').html(calendar._getNextMonth());
 
 var eventsList = []
  fetch('http://localhost/events').then((response) => {
-	response.json().then((data) => {
-		if (data.error) {
+	response.json().then((eventsList) => {
+		if (eventsList.error) {
 			
 		} else {
-			  eventsList = data;
-			  console.log(eventsList);
 			  calendar._updateEvents(eventsList);				
 
 			  $( ".complete" ).on( "click", function(e) {
 				e.preventDefault()
 				console.log('complete clicked')
+
+
+				let _data = {
+					"id": $(this).attr('event'),
+				  }
+					fetch('http://localhost/events/completed', {
+			method: 'POST',
+			headers: {
+			  'Content-Type': 'application/json;charset=utf-8'
+			},
+			   body: JSON.stringify(_data),
+		  }).then((response) => {
+				  response.json().then((data) => {
+					  if (data.error) {
+						console.log(data.error)
+					  } else {
+						  console.log('refresh')
+						calendar._updateEvents(data);
+					  }
+				  })
+			  })	
+		
+
+
+
+
 			  });
 			  $( "#saveEvent" ).on( "click", function(e) {
 				e.preventDefault()

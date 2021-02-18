@@ -1,7 +1,7 @@
 const fs = require('fs')
 const { v4: uuidv4 } = require('uuid');
 const eventFileName = './events.json'
-const addEvent = (title,day, month,year) => {
+const addEvent = (title,day, month,year, completed = 0) => {
     const events = JSON.parse(loadEvents())
     // const duplicateNote = events.find((event) => (event.title === title))
     const duplicateNote = events.find((event) => (
@@ -10,7 +10,7 @@ const addEvent = (title,day, month,year) => {
 
     if (!duplicateNote) {
         events.push({
-            details: {title: title, id: uuidv4(), completed:0},
+            details: {title: title, id: uuidv4(), completed:completed},
             start: { time: '12:00pm', month: month, day: day, year: year },
             end: { time: '12:00pm', month: month, day: day, year: year },
                 })
@@ -33,6 +33,16 @@ const removeEvent = (id) => {
     }    
 }
 
+const markCompleteEvent = (id) => {
+    const events = JSON.parse(loadEvents())
+    events.forEach(event => {
+        if(event.details.id === id){
+            removeEvent(id)
+            addEvent(event.details.title,event.start.day,event.start.month,event.start.year,1)
+        }
+    });
+}
+
 const listEvents = () => loadEvents()
 
 const saveEvents = (events) => {
@@ -52,4 +62,5 @@ module.exports = {
     addEvent: addEvent,
     removeEvent: removeEvent,
     listEvents: listEvents,
+    markCompleteEvent: markCompleteEvent,
 }
